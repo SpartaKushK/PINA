@@ -22,12 +22,9 @@ class Union(Location):
             >>> union = GeometryUnion([ellipsoid1, ellipsoid2])
 
         """
-        for idx, geometry in enumerate(geometries):
-            check_consistency(geometry, Location, f'geometry[{idx}]')
+        super().__init__()
 
         self._check_union_consistency(geometries)
-
-        super().__init__()
         self.geometries = geometries
 
     @property
@@ -84,36 +81,46 @@ class Union(Location):
 
             >>> union.sample(n=1000)
                 LabelTensor([[-0.2025,  0.0072],
-                    [ 0.0358,  0.5748],
-                    [ 0.5083,  0.0482],
-                    ...,
-                    [ 0.5857,  0.9279],
-                    [ 1.1496,  1.7339],
-                    [ 0.7650,  1.0469]])
-
+                            [ 0.0358,  0.5748],
+                            [ 0.5083,  0.0482],
+                            ...,
+                            [ 0.5857,  0.9279],
+                            [ 1.1496,  1.7339],
+                            [ 0.7650,  1.0469]])
             >>> len(union.sample(n=1000)
                 1000
         """
+        # sample point list
         sampled_points = []
-        remainder = n % len(self.geometries)
 
+        # calculate points to sample in each geometry
+        remainder = n % len(self.geometries)
+        num_points = n // len(self.geometries)
+
+        # sampling points
         for i, geometry in enumerate(self.geometries):
-            num_points = n // len(self.geometries)
             if i < remainder:
                 num_points += 1
             points = geometry.sample(num_points, mode, variables)
             sampled_points.append(points)
 
-        combined_points = torch.cat(sampled_points)
-        return LabelTensor(torch.tensor(combined_points), labels=[f'{i}' for i in self.variables])
+        return LabelTensor(torch.cat(sampled_points), labels=[f'{i}' for i in self.variables])
 
     def _check_union_consistency(self, geometries):
-        """Check if the dimensions of the geometries are consistent.
+        """Check if the dimensions of the geometries are consistent
+           and if all objects in ```'geometries'``` are from class
+           ```'Location'```.
 
         :param geometries: Geometries to be checked.
         :type geometries: list[Location]
         """
+        # check objects instance
+        for idx, geometry in enumerate(geometries):
+            check_consistency(geometry, Location, f'geometry[{idx}]')
+
+        # check that the objects' dimensions are consistent
         for geometry in geometries:
             if geometry.variables != geometries[0].variables:
                 raise NotImplementedError(
-                    f'The geometries need to be the same dimensions. {geometry.variables} is not equal to {geometries[0].variables}')
+                    f'The geometries need to be the same dimensions. {geometry.variables} is'
+                    f' not equal to {geometries[0].variables}')
