@@ -1,3 +1,4 @@
+""" Network class with starndard forward method"""
 import torch
 import torch.nn as nn
 from ..utils import check_consistency
@@ -46,4 +47,5 @@ class Network(torch.nn.Module):
 
     @property
     def extra_features(self):
+        """ Return the extra features."""
         return self._extra_features

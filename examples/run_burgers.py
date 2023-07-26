@@ -2,10 +2,10 @@
 import argparse
 import torch
 from torch.nn import Softplus
+from problems.burgers import Burgers1D
 
 from pina import PINN, Plotter, LabelTensor
 from pina.model import FeedForward
-from problems.burgers import Burgers1D
 
 
 class myFeature(torch.nn.Module):

@@ -1,5 +1,4 @@
 import argparse
-import numpy as np
 import torch
 from torch.nn import Softplus
 
@@ -18,6 +17,7 @@ class myFeature(torch.nn.Module):
         super(myFeature, self).__init__()
 
     def forward(self, x):
+        """ Defines the computation performed at every call."""
         t = (-x.extract(['x1'])**2+1) * (-x.extract(['x2'])**2+1)
         return LabelTensor(t, ['k0'])
 

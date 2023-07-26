@@ -6,7 +6,8 @@ from pina.problem2d import Problem2D
 
 xmin, xmax, ymin, ymax = -1, 1, -1, 1
 
-class EllipticOptimalControl(Problem2D):
+class EllipticOptimalControl(Problem2D, Problem, torch.nn.Module):
+    """ Elliptic optimal control problem."""
 
     def __init__(self, alpha=1):
 
@@ -35,8 +36,10 @@ class EllipticOptimalControl(Problem2D):
         self.conditions = {
             'gamma1': {'location': Segment((xmin, ymin), (xmax, ymin)), 'func': nil_dirichlet},
             'gamma2': {'location': Segment((xmax, ymin), (xmax, ymax)), 'func': nil_dirichlet},
-            'gamma3': {'location': Segment((xmax, ymax), (xmin, ymax)), 'func': nil_dirichlet},
-            'gamma4': {'location': Segment((xmin, ymax), (xmin, ymin)), 'func': nil_dirichlet},
+            'gamma3': {'location': Segment((xmax, ymax), (xmin, ymax)), 
+                       'func': nil_dirichlet},
+            'gamma4': {'location': Segment((xmin, ymax), (xmin, ymin)), 
+                       'func': nil_dirichlet},
             'D1': {'location': Cube([[xmin, xmax], [ymin, ymax]]), 'func': [term1, term2, term3]},
         }
 

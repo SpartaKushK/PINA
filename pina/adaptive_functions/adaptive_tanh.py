@@ -31,9 +31,11 @@ class AdaptiveTanh(torch.nn.Module):
 
         # initialize alpha
         if alpha == None:
-            self.alpha = Parameter(torch.tensor(1.0)) # create a tensor out of alpha
+            # create a tensor out of alpha
+            self.alpha = Parameter(torch.tensor(1.0)) 
         else:
-            self.alpha = Parameter(torch.tensor(alpha)) # create a tensor out of alpha
+            # create a tensor out of alpha
+            self.alpha = Parameter(torch.tensor(alpha)) 
             
         self.alpha.requiresGrad = True # set requiresGrad to true!
 

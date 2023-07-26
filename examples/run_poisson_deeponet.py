@@ -8,7 +8,7 @@ from pina import PINN, LabelTensor, Plotter
 from pina.model import DeepONet, FeedForward
 
 
-class SinFeature(torch.nn.Module):
+class SinFeature(torch.nn.Module, LabelTensor):
     """
     Feature: sin(x)
     """
@@ -44,6 +44,7 @@ class myRBF(torch.nn.Module):
         self.c = torch.nn.Parameter(torch.tensor([.5]))
 
     def forward(self, x):
+        """ Defines the computation performed at every call."""
         x = x.extract(self.input_variables)
         result = self.a * torch.exp(-(x - self.b)**2/(self.c**2))
         return result

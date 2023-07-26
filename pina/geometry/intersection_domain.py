@@ -87,7 +87,8 @@ class Intersection(OperationInterface):
 
         sampled = []
 
-        # calculate the number of points to sample for each geometry and the remainder.
+        # calculate the number of points to sample 
+        # for each geometry and the remainder.
         remainder = n % len(self.geometries)
         num_points = n // len(self.geometries)
 

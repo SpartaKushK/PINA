@@ -94,7 +94,8 @@ class GAROM(SolverInterface):
         super().__init__(models=[generator, discriminator],
                          problem=problem,
                          extra_features=extra_features,
-                         optimizers=[optimizer_generator, optimizer_discriminator],
+                         optimizers=[optimizer_generator, 
+                                     optimizer_discriminator],
                          optimizers_kwargs=[optimizer_generator_kwargs, optimizer_discriminator_kwargs])
         
         # set automatic optimization for GANs

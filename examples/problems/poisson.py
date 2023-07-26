@@ -12,7 +12,8 @@ class Poisson(SpatialProblem):
     output_variables = ['u']
     spatial_domain = Span({'x': [0, 1], 'y': [0, 1]})
 
-    def laplace_equation(input_, output_):
+    def laplace_equation(self, input_, output_):
+        """ Laplace equation to solve."""
         force_term = (torch.sin(input_.extract(['x'])*torch.pi) *
                       torch.sin(input_.extract(['y'])*torch.pi))
         delta_u = laplacian(output_.extract(['u']), input_)
@@ -31,6 +32,7 @@ class Poisson(SpatialProblem):
     }
 
     def poisson_sol(self, pts):
+        """ Analytical solution of the Poisson equation."""
         return -(
             torch.sin(pts.extract(['x'])*torch.pi) *
             torch.sin(pts.extract(['y'])*torch.pi)
